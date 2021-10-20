@@ -1,0 +1,25 @@
+---
+
+- hosts: [centos_vms] 
+  become: true
+  tasks:
+
+  - name: install apache2 package ubuntu
+    dnf: 
+      update_cache: yes
+
+  - name: install apache2 package centos
+    dnf: 
+      name: httpd
+      state: latest
+
+      #  - name: add php support for apache2
+      #    dnf:
+      #  name: libapache2-mod-php
+      #  state: latest 
+
+  - name: enable httpd service
+    systemd:
+      name: httpd
+      enabled: yes
+      state: started
