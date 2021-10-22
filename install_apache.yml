@@ -1,0 +1,33 @@
+---
+
+- hosts: ubuntu_vms:centos_vms
+  become: true
+  tasks:
+
+  - name: update repository index ubuntu
+    apt:
+      update_cache: yes
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: install apache2 package ubuntu
+    apt: 
+      name: apache2
+      state: latest
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: add php support for apache ubuntu
+    apt:
+      name: libapache2-mod-php
+      state: latest
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: update repository index centos
+    dnf:
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install httpd package centos
+    dnf:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "CentOS"
